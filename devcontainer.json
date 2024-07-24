@@ -1,0 +1,41 @@
+{
+    "name": "Rust Development Environment (with WINDOWS cross-compiler)",
+    "build": {
+        "dockerfile": "./Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "lldb.executable": "/usr/bin/lldb",
+                "files.watcherExclude": {
+                    "**/target/**": true
+                },
+                "rust-analyzer.checkOnSave.command": "clippy"
+            },
+            "extensions": [
+                "rust-lang.rust-analyzer",
+                "vadimcn.vscode-lldb",
+                "serayuzgur.crates",
+                "tamasfe.even-better-toml",
+                "DavidAnson.vscode-markdownlint",
+                "shd101wyy.markdown-preview-enhanced"
+            ]
+        }
+    },
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}"
+    },
+    "mounts": [
+        {
+            "source": "devcontainer-cargo-cache-${devcontainerId}",
+            "target": "/usr/local/cargo",
+            "type": "volume"
+        },
+        {
+            "source": "/tmp/.X11-unix",
+            "target": "/tmp/.X11-unix",
+            "type": "bind"
+        }
+    ],
+    "postCreateCommand": "rustc --version"
+}
